@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RG GFX - App Store</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+  body { background:#0f0f14; color:#eaeaea; }
+
+  /* NAVBAR */
+  nav {
+    background:linear-gradient(90deg,#6a00ff,#ff006a);
+    padding:15px 30px; display:flex; justify-content:space-between;
+    align-items:center; position:sticky; top:0; z-index:100;
+  }
+  nav h1 { font-size:24px; letter-spacing:2px; }
+  nav ul { display:flex; gap:20px; list-style:none; }
+  nav a { color:#fff; text-decoration:none; font-weight:600; }
+  nav a:hover { text-decoration:underline; }
+
+  /* HERO */
+  .hero {
+    text-align:center; padding:80px 20px;
+    background:radial-gradient(circle at center,#1a0033,#0f0f14);
+  }
+  .hero h2 { font-size:42px; background:linear-gradient(90deg,#6a00ff,#ff006a);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero p { margin-top:15px; color:#aaa; font-size:18px; }
+
+  /* SECTION */
+  section { padding:50px 30px; max-width:1100px; margin:auto; }
+  h3 { font-size:28px; margin-bottom:25px; color:#ff4d9d; }
+
+  /* APP GRID */
+  .apps { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:20px; }
+  .app-card {
+    background:#1a1a24; border:1px solid #2a2a3a; border-radius:12px;
+    padding:20px; transition:.3s;
+  }
+  .app-card:hover { transform:translateY(-5px); border-color:#6a00ff;
+    box-shadow:0 10px 25px rgba(106,0,255,.4); }
+  .app-card img { width:70px; height:70px; border-radius:15px; margin-bottom:12px; }
+  .app-card h4 { font-size:18px; margin-bottom:6px; }
+  .app-card p { font-size:14px; color:#999; margin-bottom:12px; min-height:40px; }
+  .btn {
+    display:inline-block; padding:9px 18px; border-radius:8px;
+    background:linear-gradient(90deg,#6a00ff,#ff006a); color:#fff;
+    text-decoration:none; font-weight:600; font-size:14px; border:none; cursor:pointer;
+  }
+  .btn:hover { opacity:.85; }
+  .btn.danger { background:#c0392b; }
+
+  /* OWNER */
+  .owner-box {
+    background:#1a1a24; border-left:5px solid #ff006a; padding:25px;
+    border-radius:10px; line-height:1.8;
+  }
+  .owner-box b { color:#ff4d9d; }
+
+  /* ADMIN PANEL */
+  #adminPanel {
+    display:none; background:#14141c; border:1px solid #6a00ff;
+    border-radius:12px; padding:25px; margin-top:20px;
+  }
+  #adminPanel input, #adminPanel textarea {
+    width:100%; padding:10px; margin-bottom:12px; border-radius:8px;
+    border:1px solid #333; background:#0f0f14; color:#fff;
+  }
+  #adminPanel label { font-size:14px; color:#aaa; }
+  .admin-toggle { float:right; font-size:13px; color:#666; cursor:pointer; }
+
+  footer { text-align:center; padding:25px; color:#555; border-top:1px solid #222; margin-top:40px; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <h1>🎮 RG GFX</h1>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#apps">Apps</a></li>
+    <li><a href="#owner">Owner</a></li>
+    <li><a href="#" onclick="toggleAdmin()">Admin</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <h2>RG GFX App Store</h2>
+  <p>အကောင်းဆုံး Graphic Apps များကို အခမဲ့ Download ဆွဲပါ</p>
+</div>
+
+<!-- APPS SECTION -->
+<section id="apps">
+  <h3>📱 Available Apps</h3>
+  <div class="apps" id="appList"></div>
+</section>
+
+<!-- ADMIN PANEL -->
+<section>
+  <span class="admin-toggle" onclick="toggleAdmin()">⚙️ Admin Panel</span>
+  <div id="adminPanel">
+    <h3>🔐 Admin - App Upload</h3>
+    <label>Password</label>
+    <input type="password" id="adminPass" placeholder="Enter admin password">
+    <label>App Name</label>
+    <input type="text" id="appName" placeholder="e.g. RG Photo Editor">
+    <label>Description</label>
+    <textarea id="appDesc" placeholder="Short description..."></textarea>
+    <label>Icon URL (image link)</label>
+    <input type="text" id="appIcon" placeholder="https://...">
+    <label>Download URL</label>
+    <input type="text" id="appLink" placeholder="https://...">
+    <button class="btn" onclick="addApp()">➕ Add App</button>
+    <button class="btn danger" onclick="clearApps()">🗑️ Clear All</button>
+  </div>
+</section>
+
+<!-- OWNER SECTION -->
+<section id="owner">
+  <h3>👑 RG OWNER အကြောင်း</h3>
+  <div class="owner-box">
+    <p><b>Name:</b> RG OWNER</p>
+    <p><b>Role:</b> Founder & Developer of RG GFX</p>
+    <p><b>About:</b> RG OWNER သည် RG GFX Developer ဖြစ်ပြီး
+    Graphic Design၊ App Development နှင့် Web Technology နယ်ပယ်များတွင်
+    ကျွမ်းကျင်သူတစ်ဦးဖြစ်သည်။ အရည်အသွေးမြင့်၊ အသုံးပြုရလွယ်ကူသော
+    Digital Tools များကို အခမဲ့ ဖြန့်ဝေပေးလျက်ရှိသည်။</p>
+  </div>
+</section>
+
+<footer>
+  © 2026 RG GFX | Designed by RG OWNER
+</footer>
+
+<script>
+  // Admin password (ပြောင်းလိုပါက ဒီမှာ ပြင်ပါ)
+  const ADMIN_PASSWORD = "rgadmin999";
+
+  // Default apps
+  let apps = JSON.parse(localStorage.getItem("rgApps")) || [
+    {
+      name: "RG Photo Editor",
+      desc: "Professional photo editing tool",
+      icon: "https://via.placeholder.com/70/6a00ff/fff?text=RG",
+      link: "#"
+    },
+    {
+      name: "RG Logo Maker",
+      desc: "Create stunning logos easily",
+      icon: "https://via.placeholder.com/70/ff006a/fff?text=RG",
+      link: "#"
+    }
+  ];
+
+  // Render apps
+  function renderApps() {
+    const list = document.getElementById("appList");
+    list.innerHTML = "";
+    if (apps.length === 0) {
+      list.innerHTML = "<p style='color:#666'>No apps available yet.</p>";
+      return;
+    }
+    apps.forEach((app, i) => {
+      list.innerHTML += `
+        <div class="app-card">
+          <img src="${app.icon}" alt="${app.name}">
+          <h4>${app.name}</h4>
+          <p>${app.desc}</p>
+          <a href="${app.link}" target="_blank" class="btn">⬇ Download</a>
+          <button class="btn danger" style="margin-top:8px" onclick="deleteApp(${i})">Delete</button>
+        </div>`;
+    });
+  }
+
+  // Add app
+  function addApp() {
+    const pass = document.getElementById("adminPass").value;
+    if (pass !== ADMIN_PASSWORD) return alert("❌ Wrong password!");
+
+    const name = document.getElementById("appName").value.trim();
+    const desc = document.getElementById("appDesc").value.trim();
+    const icon = document.getElementById("appIcon").value.trim() ||
+                 "https://via.placeholder.com/70/6a00ff/fff?text=App";
+    const link = document.getElementById("appLink").value.trim() || "#";
+
+    if (!name) return alert("App name required!");
+
+    apps.push({ name, desc, icon, link });
+    saveApps();
+    renderApps();
+
+    // Clear fields
+    document.getElementById("appName").value = "";
+    document.getElementById("appDesc").value = "";
+    document.getElementById("appIcon").value = "";
+    document.getElementById("appLink").value = "";
+    alert("✅ App added successfully!");
+  }
+
+  // Delete app
+  function deleteApp(i) {
+    const pass = prompt("Enter admin password to delete:");
+    if (pass !== ADMIN_PASSWORD) return alert("❌ Wrong password!");
+    apps.splice(i, 1);
+    saveApps();
+    renderApps();
+  }
+
+  // Clear all
+  function clearApps() {
+    const pass = prompt("Enter admin password:");
+    if (pass !== ADMIN_PASSWORD) return alert("❌ Wrong password!");
+    if (confirm("Delete all apps?")) {
+      apps = [];
+      saveApps();
+      renderApps();
+    }
+  }
+
+  function saveApps() {
+    localStorage.setItem("rgApps", JSON.stringify(apps));
+  }
+
+  function toggleAdmin() {
+    const p = document.getElementById("adminPanel");
+    p.style.display = p.style.display === "block" ? "none" : "block";
+  }
+
+  renderApps();
+</script>
+
+</body>
+</html>
